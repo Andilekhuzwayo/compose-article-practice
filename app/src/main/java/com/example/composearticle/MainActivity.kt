@@ -14,7 +14,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -26,47 +26,58 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ComposeArticleTheme {
-                ComposeArticleImage()
+                ComposeArticleImage(heading = stringResource(R.string.article_heading),
+                    firstParagraph1 = stringResource(R.string.paragraph_one),
+                    secondParagraph2 = stringResource(R.string.paragraph_2))
+            }
             }
         }
     }
-}
 
 @Composable
-fun ComposeArticleText(heading: String,firstParagraph1: String,secondParagraph2: String,modifier: Modifier = Modifier) {
-    Column(verticalArrangement = Arrangement.Center,
+fun ComposeArticleText(heading: String, firstParagraph1: String, secondParagraph2: String, modifier: Modifier = Modifier) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier.padding(16.dp)
     ) {
-        // heading text compose and layout of how thw text looks
+        // heading text compose and layout of how the text looks
         Text(
             text = heading,
-            fontSize = 30.sp
+            fontSize = 20.sp
+        )
+        // paragraphs layout
+        Text(
+            text = firstParagraph1,
+            textAlign = TextAlign.Justify
         )
         Text(
-            text = firstParagraph1
-            ,textAlign = TextAlign.Center
-        )
-        Text(
-            text = secondParagraph2
+            text = secondParagraph2,
+            textAlign = TextAlign.Justify
         )
     }
 }
 
 @Composable
-fun ComposeArticleImage(modifier: Modifier = Modifier){
+fun ComposeArticleImage(heading: String, firstParagraph1: String, secondParagraph2: String, modifier: Modifier = Modifier){
     val article = painterResource(R.drawable.bg_compose_background)
+    Column(modifier = modifier) {
         Image(
             painter = article,
             contentDescription = null,
+            modifier = Modifier.fillMaxWidth()
         )
+        ComposeArticleText(heading = heading,
+            firstParagraph1 = firstParagraph1,
+            secondParagraph2 = secondParagraph2)
+    }
 }
 
+// preview of the app
 @Preview(showBackground = true)
 @Composable
 fun ComposeArticlePreview() {
     ComposeArticleTheme {
-
-        ComposeArticleText(heading = stringResource(R.string.article_heading),
+        ComposeArticleImage(heading = stringResource(R.string.article_heading),
             firstParagraph1 = stringResource(R.string.paragraph_one),
             secondParagraph2 = stringResource(R.string.paragraph_2))
     }
